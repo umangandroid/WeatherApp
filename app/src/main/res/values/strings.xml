@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="air_quality">Air Quality</string>
+    <string name="good">Good</string>
+    <string name="fair">Fair</string>
+    <string name="moderate">Moderate</string>
+    <string name="poor">Poor</string>
+    <string name="very_poor">Very Poor</string>
+    <string name="just_now">Updated Just Now</string>
+    <string name="ago">Updated %d minutes ago</string>
+
+    <string name="co">CO (Carbon monoxide)</string>
+    <string name="no">NO (Nitrogen monoxide)</string>
+    <string name="no2">NO2 (Nitrogen dioxide)</string>
+    <string name="o3">O3 (Ozone)</string>
+    <string name="so2">SO2 (Sulphur Dioxide)</string>
+    <string name="pm2">PM2.5 (Fine particles matter)</string>
+    <string name="pm10">PM10 (Course particulate matter)</string>
+    <string name="nh3">NH3 (Ammonia)</string>
+    <string name="unable_to_connect">Unable to connect remote sever</string>
+    <string name="unable_to_fetch_forecast_data">Unable to fetch forecast data</string>
+    <string name="unable_to_fetch_current_data">Unable to fetch current air quality data</string>
+    <string name="city_name">Munich</string>
+</resources>

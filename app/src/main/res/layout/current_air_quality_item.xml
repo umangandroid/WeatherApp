@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="airQuality"
+            type="com.umang.weatherapp.data.db.AirQualityDb" />
+
+        <variable
+            name="viewModel"
+            type="com.umang.weatherapp.ui.AirQualityListViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/conContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_current_air_qua_width"
+        android:background="@{context.getColor(airQuality.airQualityColor)}"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{() -> viewModel.openCurrentAirQualityDetails(airQuality.components)}">
+
+
+        <TextView
+            android:id="@+id/tvAirQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@{context.getString(airQuality.airQuality)}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/conContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/conContainer"
+            tools:text="moderate" />
+
+        <TextView
+            android:id="@+id/tvAirQualityLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/air_quality"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toTopOf="@id/tvAirQuality"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@{String.valueOf(airQuality.dateTime)}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAirQuality"
+            tools:text="1/5/21" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

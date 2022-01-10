@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="airQuality"
+            type="com.umang.weatherapp.data.db.AirQualityDb" />
+
+        <variable
+            name="viewModel"
+            type="com.umang.weatherapp.ui.AirQualityListViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/conContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> viewModel.openCurrentAirQualityDetails(airQuality.components)}"
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@{context.getColor(airQuality.airQualityColor)}"
+        android:padding="@dimen/dp_12">
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(airQuality.dateTime)}"
+            tools:text="3 : 00 AM"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAirQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableEndCompat="@drawable/baseline_chevron_right_18"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:text="@{context.getString(airQuality.airQuality)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

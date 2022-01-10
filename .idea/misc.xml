@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.14444444444444443" />
+        <entry key="app/src/main/res/drawable/baseline_chevron_left_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/baseline_chevron_right_18.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/divider.xml" value="0.13229166666666667" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.17407407407407408" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/air_component_item.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/current_air_quality_item.xml" value="0.12092391304347826" />
+        <entry key="app/src/main/res/layout/error_item.xml" value="0.12092391304347826" />
+        <entry key="app/src/main/res/layout/forecast_item.xml" value="0.20153061224489796" />
+        <entry key="app/src/main/res/layout/fragment_air_quality_details.xml" value="0.2785977859778598" />
+        <entry key="app/src/main/res/layout/fragment_air_quality_list.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/item_date.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="dagger.Binds" />
+    </list>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
