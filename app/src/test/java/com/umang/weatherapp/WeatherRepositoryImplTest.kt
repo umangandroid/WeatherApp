@@ -15,6 +15,7 @@ import org.junit.Test
 /**
  *  Unit test implementation for WeatherRepositoryImpl
  */
+//TODO : update this class to map with search feature
 @ExperimentalCoroutinesApi
 class WeatherRepositoryImplTest {
     private lateinit var weatherRepositoryImpl: WeatherRepositoryImpl
@@ -28,7 +29,7 @@ class WeatherRepositoryImplTest {
 
     @Test
     fun getAirQualityDataFlowTest() = runBlocking {
-        val resultFlow = weatherRepositoryImpl.getCurrentAirQualityData(true)
+        val resultFlow = weatherRepositoryImpl.getCurrentAirQualityData(true, "23.5:23.5")
         val resultValue = resultFlow.first()
         assert(resultValue is DataResult.Success)
         val list = (resultValue as DataResult.Success).data
@@ -40,7 +41,7 @@ class WeatherRepositoryImplTest {
 
     @Test
     fun getForeCastAirQualityDataTest() = runBlocking {
-        val resultFlow = weatherRepositoryImpl.getForeCastAirQualityData(true)
+        val resultFlow = weatherRepositoryImpl.getForeCastAirQualityData(true, "23.5:23.5")
         val resultValue = resultFlow.first()
         assert(resultValue is DataResult.Success)
         val list = (resultValue as DataResult.Success).data

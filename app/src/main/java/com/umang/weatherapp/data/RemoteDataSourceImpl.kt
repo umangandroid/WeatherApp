@@ -2,6 +2,7 @@ package com.umang.weatherapp.data
 
 import com.umang.weatherapp.data.models.AirQualityResponse
 import com.umang.weatherapp.data.models.DataResult
+import com.umang.weatherapp.data.models.LatLongRequest
 import javax.inject.Inject
 
 /**
@@ -15,8 +16,8 @@ class RemoteDataSourceImpl @Inject constructor(private val apiService: APIServic
      *
      * @return : air quality list
      */
-    override suspend fun getCurrentAirQualityData(): DataResult<AirQualityResponse> {
-        return getResult { apiService.getCurrentAirQuality() }
+    override suspend fun getCurrentAirQualityData(latLongRequest: LatLongRequest): DataResult<AirQualityResponse> {
+        return getResult { apiService.getCurrentAirQuality(latLongRequest.latitude,latLongRequest.longitude) }
     }
 
     /**
@@ -24,8 +25,8 @@ class RemoteDataSourceImpl @Inject constructor(private val apiService: APIServic
      *
      * @return :air quality list
      */
-    override suspend fun getForeCastAirQualityData(): DataResult<AirQualityResponse> {
-        return getResult { apiService.getForecastAirQuality() }
+    override suspend fun getForeCastAirQualityData(latLongRequest: LatLongRequest): DataResult<AirQualityResponse> {
+        return getResult { apiService.getForecastAirQuality(latLongRequest.latitude,latLongRequest.longitude) }
     }
 
 }

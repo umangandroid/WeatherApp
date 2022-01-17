@@ -18,13 +18,13 @@ import org.mockito.kotlin.mock
 
 class FakeRepository :WeatherRepository {
     private val repoImpl = WeatherRepositoryImpl(mock<RemoteDataSourceImpl>(),mock<LocalDataSourceImpl>())
-    override fun getCurrentAirQualityData(isRefresh: Boolean): Flow<DataResult<List<AirQualityDb>>> {
+    override fun getCurrentAirQualityData(isRefresh: Boolean, searchStr: String): Flow<DataResult<List<AirQualityDb>>> {
         return  flow{
            emit(getFakeCurrentData())
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getForeCastAirQualityData(isRefresh: Boolean): Flow<DataResult<List<AirQualityDb>>> {
+    override fun getForeCastAirQualityData(isRefresh: Boolean, searchStr: String): Flow<DataResult<List<AirQualityDb>>> {
         return flow{
             emit(getFakeForecastData())
         }.flowOn(Dispatchers.IO)

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -19,6 +20,8 @@ import com.umang.weatherapp.databinding.FragmentAirQualityListBinding
 import com.umang.weatherapp.ui.AirQualityListViewModel
 import com.umang.weatherapp.ui.adapters.AirQualityListAdapter
 import com.umang.weatherapp.utils.BUNDLE_DATA
+import com.umang.weatherapp.utils.hideSoftKeyboard
+import com.umang.weatherapp.utils.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -51,9 +54,23 @@ class AirQualityListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
+        setActionListener()
         setupDataObservers()
-        fragmentAirQualityListBinding.progressBar.visibility = View.VISIBLE
-        viewModel.getAirQualityDataFlow(false)
+        fragmentAirQualityListBinding.edtLatLong.showKeyboard()
+    }
+
+    /**
+     * To search based on user input
+     *
+     */
+    private fun setActionListener() {
+        fragmentAirQualityListBinding.edtLatLong.setOnEditorActionListener { v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_DONE ){
+                fragmentAirQualityListBinding.edtLatLong.hideSoftKeyboard()
+                viewModel.getAirQualityDataFlow(true,fragmentAirQualityListBinding.edtLatLong.text.toString().trim())
+            }
+            return@setOnEditorActionListener true
+        }
     }
 
     /**
@@ -82,7 +99,7 @@ class AirQualityListFragment : Fragment() {
 
 
     private fun setupAdapter() {
-        fragmentAirQualityListBinding.rvList.setHasFixedSize(true)
+        //fragmentAirQualityListBinding.rvList.setHasFixedSize(true)
         (fragmentAirQualityListBinding.rvList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
             false
         val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)

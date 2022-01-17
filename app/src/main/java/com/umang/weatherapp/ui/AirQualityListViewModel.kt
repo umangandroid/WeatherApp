@@ -35,6 +35,8 @@ class AirQualityListViewModel @Inject constructor(
     private val dataResourceProvider: DataResourceProvider
 ) :
     ViewModel() {
+    private var mSearchStr: String = ""
+
     // to show common error as toast
     private val _commonError = Channel<String>()
     val commonError = _commonError.receiveAsFlow()
@@ -53,10 +55,13 @@ class AirQualityListViewModel @Inject constructor(
     val isRefreshing = MutableStateFlow(false)
 
     //to get formatted sync time
-    val formattedSyncTime =
-        Transformations.map(dataStoreManager.getSyncTime().asLiveData().distinctUntilChanged()) {
-            formatSyncTime(it)
-        }
+
+
+    //not displaying sync time now as with search new data fetched from api every time
+    val formattedSyncTime = ""
+    /*Transformations.map(dataStoreManager.getSyncTime().asLiveData().distinctUntilChanged()) {
+       formatSyncTime(it)
+    }*/
 
     /**
      * Convert utc sync time formatted string
@@ -86,21 +91,21 @@ class AirQualityListViewModel @Inject constructor(
         return (System.currentTimeMillis() - result > HOUR_DIFF)
     }
 
-
-    /**
-     * Merge calls for current and forecast data and process results to show in screen
-     *
-     * @param isPullToRefresh : true for pull to refresh
-     */
-    fun getAirQualityDataFlow(isPullToRefresh: Boolean) {
-        if (!isPullToRefresh)
-            progressStatus.value = true
+    //TODO :revisit this calling logic to make it proper for search
+    fun getAirQualityDataFlow(isPullToRefresh: Boolean, searchStr: String) {
+        mSearchStr = searchStr
+        progressStatus.value = true
         viewModelScope.launch(Dispatchers.IO) {
             //get data from api if isPullToRefresh true or if last sync was before an hour
             EspressoIdlingResource.increment()
             val isGetFromAPI = isPullToRefresh || getIsSyncRequired()
-            weatherRepository.getCurrentAirQualityData(isGetFromAPI)
-                .zip(weatherRepository.getForeCastAirQualityData(isGetFromAPI)) { currentAirQuality, foreCastAirQuality ->
+            weatherRepository.getCurrentAirQualityData(isGetFromAPI, searchStr)
+                .zip(
+                    weatherRepository.getForeCastAirQualityData(
+                        isGetFromAPI,
+                        searchStr
+                    )
+                ) { currentAirQuality, foreCastAirQuality ->
                     return@zip processResponseFlow(
                         currentAirQuality,
                         foreCastAirQuality,
@@ -110,7 +115,7 @@ class AirQualityListViewModel @Inject constructor(
                     e.localizedMessage?.let { _commonError.send(it) }
                     hideProgress()
                     EspressoIdlingResource.decrement()
-            }
+                }
                 .flowOn(Dispatchers.IO)
                 .collect {
                     airQualityListFlow.value = it
@@ -135,7 +140,7 @@ class AirQualityListViewModel @Inject constructor(
      */
     fun refreshData() {
         isRefreshing.value = true
-        getAirQualityDataFlow(true)
+        getAirQualityDataFlow(true, mSearchStr)
 
     }
 
@@ -148,7 +153,6 @@ class AirQualityListViewModel @Inject constructor(
     fun openCurrentAirQualityDetails(components: Components) = viewModelScope.launch {
         _airQualityComponent.send(components)
     }
-
 
 
     /**
@@ -165,13 +169,14 @@ class AirQualityListViewModel @Inject constructor(
         isGetFromAPI: Boolean
     ): List<AirQualityModel> {
         // update sync time if both response received
-        if (isGetFromAPI && (currentData is DataResult.Success || foreCastData is DataResult.Success)) {
+        if (isGetFromAPI && (currentData is DataResult.Success && foreCastData is DataResult.Success)) {
             dataStoreManager.saveSyncTime(System.currentTimeMillis())
         }
         val responseList = ArrayList<AirQualityModel>()
 
         if (currentData is DataResult.Success) {//store current air quality data in list
-            currentData.data[0].dateTime = currentData.data[0].dt.toDate() // parse utc time to sting date
+            currentData.data[0].dateTime =
+                currentData.data[0].dt.toDate() // parse utc time to sting date
             responseList.add(AirQualityModel.AirQualityItem(currentData.data[0]))
         } else if (currentData is DataResult.Error) { // add error item in list for current air quality data
             if (currentData.exception is UnknownHostException) { // if no internet throw error

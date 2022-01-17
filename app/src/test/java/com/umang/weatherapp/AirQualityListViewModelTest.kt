@@ -18,8 +18,10 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 /**
+ *
  *  Unit test implementation for AirQualityListViewModel
  */
+//TODO : update this class to map with search feature
 @ExperimentalCoroutinesApi
 class AirQualityListViewModelTest {
     private lateinit var viewModel: AirQualityListViewModel
@@ -39,7 +41,7 @@ class AirQualityListViewModelTest {
 
     @Test
     fun getAirQualityDataFlowTest() = runBlocking {
-        viewModel.getAirQualityDataFlow(false)
+        viewModel.getAirQualityDataFlow(true, "23.5:23.5")
         Assert.assertEquals(true, viewModel.progressStatus.value)
         delay(1000)
         val list = viewModel.airQualityListFlow.first()

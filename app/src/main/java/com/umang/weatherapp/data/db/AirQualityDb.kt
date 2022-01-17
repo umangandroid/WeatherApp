@@ -9,9 +9,9 @@ import com.umang.weatherapp.data.models.Components
  *
  * @property id : auto increment id
  * @property type : current or forecast
- * @property airQuality : int value of air quality (1 to 5)
+ * @property airQuality : string resource id for air quality
  * @property airQualityColor : color code for air quality (green, yellow, red)
- * @property dateTime : String value for [dt] for current air quality it is date for fore cast it is time
+ * @property dateTime : String value for [dt] for current air quality it is date for forecast it is time
  * @property dt : utc time received from api
  * @property components : air component data
  */

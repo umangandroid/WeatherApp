@@ -4,6 +4,7 @@ import com.umang.weatherapp.R
 import com.umang.weatherapp.data.db.AirQualityDb
 import com.umang.weatherapp.data.models.AirQualityItem
 import com.umang.weatherapp.data.models.DataResult
+import com.umang.weatherapp.data.models.LatLongRequest
 import com.umang.weatherapp.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -14,10 +15,10 @@ class WeatherRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
 ) : WeatherRepository {
 
-    override fun getCurrentAirQualityData(isRefresh: Boolean): Flow<DataResult<List<AirQualityDb>>> {
+    override fun getCurrentAirQualityData(isRefresh: Boolean, searchStr: String): Flow<DataResult<List<AirQualityDb>>> {
         return flow {
             if (isRefresh) {
-                val result = remoteDataSource.getCurrentAirQualityData()
+                val result = remoteDataSource.getCurrentAirQualityData(getRequestModel(searchStr))
                 if (result is DataResult.Success) {
                     localDataSource.deleteAirQualityData(CURRENT)
                     localDataSource.saveAirQualityData(
@@ -36,10 +37,16 @@ class WeatherRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getForeCastAirQualityData(isRefresh: Boolean): Flow<DataResult<List<AirQualityDb>>> {
+    //TODO : revisit code if validations not handled
+    private fun getRequestModel(searchStr: String): LatLongRequest {
+        return LatLongRequest(searchStr.split(LATLONG_SEPARATOR)[0].toDouble(),searchStr.split(LATLONG_SEPARATOR)[1].toDouble())
+
+    }
+
+    override fun getForeCastAirQualityData(isRefresh: Boolean, searchStr: String): Flow<DataResult<List<AirQualityDb>>> {
         return flow {
             if (isRefresh) {
-                val result = remoteDataSource.getForeCastAirQualityData()
+                val result = remoteDataSource.getForeCastAirQualityData(getRequestModel(searchStr))
                 if (result is DataResult.Success) {
                     localDataSource.deleteAirQualityData(FORECAST)
                     localDataSource.saveAirQualityData(

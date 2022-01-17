@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.Flow
  */
 interface WeatherRepository {
 
-    fun getCurrentAirQualityData(isRefresh: Boolean) :Flow<DataResult<List<AirQualityDb>>>
+    fun getCurrentAirQualityData(isRefresh: Boolean, searchStr: String) :Flow<DataResult<List<AirQualityDb>>>
 
-     fun getForeCastAirQualityData(isRefresh: Boolean) :Flow<DataResult<List<AirQualityDb>>>
+     fun getForeCastAirQualityData(isRefresh: Boolean, searchStr: String) :Flow<DataResult<List<AirQualityDb>>>
 
 
 }

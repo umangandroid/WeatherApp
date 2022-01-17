@@ -2,6 +2,7 @@ package com.umang.weatherapp.data
 
 import com.umang.weatherapp.data.models.AirQualityResponse
 import com.umang.weatherapp.data.models.DataResult
+import com.umang.weatherapp.data.models.LatLongRequest
 import org.json.JSONObject
 import retrofit2.Response
 
@@ -10,8 +11,8 @@ import retrofit2.Response
  *
  */
 abstract class RemoteDataSource {
-    abstract suspend fun getCurrentAirQualityData(): DataResult<AirQualityResponse>
-    abstract suspend fun getForeCastAirQualityData(): DataResult<AirQualityResponse>
+    abstract suspend fun getCurrentAirQualityData(latLongRequest: LatLongRequest): DataResult<AirQualityResponse>
+    abstract suspend fun getForeCastAirQualityData(latLongRequest: LatLongRequest): DataResult<AirQualityResponse>
 
     /**
      * To parse api result in DataResult for further processing
